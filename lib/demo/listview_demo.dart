@@ -51,7 +51,6 @@ class ListViewDemo extends StatelessWidget {
                   );
                 },
               ),
-
             ),
           )
         ],
