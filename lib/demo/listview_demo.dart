@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import '../model/tommorow.dart';
+import 'package:flutter/painting.dart';
+import './post_show.dart';
+import '../model/post.dart';
 
 class ListViewDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return ListView.builder(
-        itemCount: pos.length,
+        itemCount: posts.length,
         itemBuilder: _listItemBuilder,
       );
   }
@@ -15,21 +17,45 @@ class ListViewDemo extends StatelessWidget {
     return Container(
       color: Colors.white,
       margin: EdgeInsets.all(8.0),
-      child: Column(
+      child: Stack(
         children: <Widget>[
-          Image.network(pos[index].imageUrl),
-          SizedBox(height: 16.0),
-          Text(
-            pos[index].title,
-            style: Theme.of(context).textTheme.title
+          Column(
+            children: <Widget>[
+              AspectRatio(
+                aspectRatio: 16/9,
+                child: Image.network(posts[index].imageUrl,fit: BoxFit.cover)
+              ),
+              SizedBox(height: 16.0),
+              Text(
+                posts[index].title,
+                style: Theme.of(context).textTheme.title
+              ),
+              Text(
+                posts[index].author,
+                style: Theme.of(context).textTheme.subhead
+              ),
+              SizedBox(height: 16.0),
+            ],
           ),
-          Text(
-            pos[index].author,
-            style: Theme.of(context).textTheme.subhead
-          ),
-          SizedBox(height: 16.0),
+          Positioned.fill(
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                splashColor: Colors.white.withOpacity(0.3),
+                highlightColor: Colors.white.withOpacity(0.1),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => PostShow(post: posts[index])
+                    )
+                  );
+                },
+              ),
+
+            ),
+          )
         ],
-      ),
+      )
     );
   }
 }
